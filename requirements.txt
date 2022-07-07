@@ -1,0 +1,3 @@
+python-dotenv>=0.17.1
+nextcord>=2.0.0a10
+openai>=0.20.0
