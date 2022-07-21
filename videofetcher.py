@@ -85,14 +85,12 @@ def search(params, api_key):
     # If the video is not between 18 and 70 seconds, it's added
     # To this list
     disallowed_video_ids = []
-
     view_count_dict = {}
 
     for video in video_list["items"]:
 
         view_count = int(video["statistics"]["viewCount"])
         duration_in_sec = parse_video_duration(video["contentDetails"]["duration"])
-
         if (
             not MINIMUM_VIDEO_DURATION_SEC < duration_in_sec < MAXIMUM_DURATION_SEC
             or view_count > 2
@@ -116,7 +114,6 @@ def parse_video_duration(duration):
     """
     try:
         parsed_duration = re.search(f"PT(\d+H)?(\d+M)?(\d+S)", duration).groups()
-
         return sum(
             [
                 int(duration[:-1]) * x
