@@ -18,7 +18,7 @@ class DailyLimitReached(Exception):
 def init_query_params(params, api_key):
     """Initializes the params that will be sent to the YouTube API"""
 
-    this_week = (datetime.datetime.now() - datetime.timedelta(days=14)).strftime(
+    this_week = (datetime.datetime.now() - datetime.timedelta(days=7)).strftime(
         "%Y-%m-%dT%H:%M:%S.%fZ"
     )
 
@@ -151,12 +151,11 @@ def get_vids(yt_api_key, amount=1):
 
     # Changes the format for the queries from '"VID 0001"' to 'VID 0001'
     # And stores the queries in a list
-    query_searches = [query.get("q")[1:-1] for query in create_queries(1, 9999)]
 
     results = []
     for query in queries:
         video_results = search(query, yt_api_key)
-        results.extend([vid for vid in video_results if vid["title"] in query_searches])
+        results.extend(video_results)
         if len(results) >= amount:
             break
 
