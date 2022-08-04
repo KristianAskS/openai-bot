@@ -37,7 +37,6 @@ async def openai(ctx: Interaction, *, args):
             frequency_penalty=0,
             presence_penalty=0,
         )
-
         try:
             await ctx.reply(response["choices"][0]["text"])
         except Exception:
@@ -65,14 +64,11 @@ async def randomvid(ctx: Interaction):
                     return
 
                 vids = get_vids(key)
-
                 random.shuffle(vids)
                 random_vid = vids.pop()
-
                 cached_videos.extend(vids)
 
                 link = f"https://www.youtube.com/watch?v={random_vid['id']}"
-
                 await ctx.reply(link)
                 return
 

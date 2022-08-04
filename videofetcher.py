@@ -1,7 +1,8 @@
-import requests
 import datetime
 import random
 import re
+
+import requests
 
 MINIMUM_VIDEO_DURATION_SEC = 18
 MAXIMUM_DURATION_SEC = 70
@@ -15,7 +16,7 @@ class DailyLimitReached(Exception):
         super().__init__(message)
 
 
-def init_query_params(params, api_key):
+def init_query_params(params: dict, api_key: str) -> dict:
     """Initializes the params that will be sent to the YouTube API"""
 
     this_week = (datetime.datetime.now() - datetime.timedelta(days=7)).strftime(
@@ -33,8 +34,8 @@ def init_query_params(params, api_key):
     return params
 
 
-def list_videos(yt_api_key, video_ids):
-    """Returns a list of videos with the list of given IDs"""
+def list_videos(yt_api_key: str, video_ids: list) -> list:
+    """Returns a list of videos with the list of given IDs."""
     params = {}
     params["key"] = yt_api_key
     params["id"] = ",".join(video_ids)
@@ -48,7 +49,7 @@ def list_videos(yt_api_key, video_ids):
     return request
 
 
-def format_response(video_list, view_count_dict):
+def format_response(video_list: list, view_count_dict: dict) -> list:
     """Formats the response from the API"""
 
     video_results = []
@@ -64,7 +65,7 @@ def format_response(video_list, view_count_dict):
     return video_results
 
 
-def search(params, api_key):
+def search(params: dict, api_key: str) -> dict:
     """Searches the YouTube API and formats the response"""
 
     params = init_query_params(params, api_key)
@@ -108,7 +109,7 @@ def search(params, api_key):
     return format_response(video_list, view_count_dict)
 
 
-def parse_video_duration(duration):
+def parse_video_duration(duration: str) -> int:
     """
     Parses the duration of a video and returns the duration in seconds
     """
@@ -125,7 +126,7 @@ def parse_video_duration(duration):
         return MAXIMUM_DURATION_SEC + 1
 
 
-def create_queries(start_index, end_index):
+def create_queries(start_index: int, end_index: int) -> list:
     """Creates queries for the YouTube API, e.g: ["VID 0001"]"""
     queries = []
     tags = ["DSC", "IMG", "VID", "MOV"]
@@ -137,7 +138,7 @@ def create_queries(start_index, end_index):
     return queries
 
 
-def get_vids(yt_api_key, amount=1):
+def get_vids(yt_api_key: str, amount=1):
     """
     Returns a list of dicts containing information about videos
     with titles such as "VID 0001" these often have no more than 1-5 views
